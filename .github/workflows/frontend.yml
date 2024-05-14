@@ -25,17 +25,22 @@ jobs:
         node: [ 18, 20 ]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+ 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
+        id: pnpm-install
         with:
           version: 9
+          run_install: false
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
+          cache-dependency-path: 'frontend/pnpm-lock.yaml'
 
       - name: Install dependencies
         run: |
