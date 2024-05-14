@@ -53,7 +53,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm run ci:publish
+          publish: pnpm run ci:publish --no-git-checks
           cwd: node-package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
