@@ -3,9 +3,15 @@ name: Frontend Playwright Tests
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
 
   pull_request:
     branches: [ main, dev ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
 
 jobs:
   test:
