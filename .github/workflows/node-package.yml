@@ -2,8 +2,15 @@ name: Node Package Tests
 
 on:
   push:
+    paths:
+      - 'node-package/**'
+      - '.github/workflows/node-package.yml'
+
   pull_request:
     branches: [ main, dev ]
+    paths:
+      - 'node-package/**'
+      - '.github/workflows/node-package.yml'
 
 jobs:
   test:
