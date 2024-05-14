@@ -1,10 +1,13 @@
 {
-  "name": "node-package",
-  "version": "0.0.0",
+  "name": "@alschn/orkuz-node-package",
+  "version": "0.1.0",
   "description": "A Node.js package written for the purpose of the final paper",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/Alschn/ORKUZ"
+  },
   "scripts": {
     "lint": "eslint",
     "dev": "vite",
