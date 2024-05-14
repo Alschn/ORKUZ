@@ -48,3 +48,23 @@ Linting:
 ```shell
 pnpm lint
 ```
+
+Running unit tests:
+
+```shell
+pnpm test
+```
+
+```shell
+pnpm test:watch
+```
+
+Running integration tests:
+
+```shell
+pnpm e2e
+```
+
+```shell
+pnpm e2e:ui
+```
