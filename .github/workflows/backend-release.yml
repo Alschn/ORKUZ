@@ -30,10 +30,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set Docker image tag
-        id: get_image_tag
+      # Make sure that image name is lowercase
+      # Extract the branch name and set the image tag based on it
+      - name: Set Docker image name and tag
+        id: get_image_name_and_tag
         shell: bash
         run: |
+          echo "IMAGE_NAME=${IMAGE_NAME@L}" >> $GITHUB_ENV
+          echo "The image name is: $IMAGE_NAME"
           branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           if [[ $branch == "main" ]]; then
             image_tag=latest
@@ -41,7 +45,7 @@ jobs:
             image_tag=${branch//\//.}
           fi
           echo "The image tag is: $image_tag"
-          echo "IMAGE_TAG=$image_tag" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${image_tag@L}" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
