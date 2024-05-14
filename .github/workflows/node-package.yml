@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 1
     defaults:
       run:
-        working-directory: frontend
+        working-directory: node-package
 
     strategy:
       matrix:
