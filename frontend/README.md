@@ -5,7 +5,7 @@ Frontend build for the purpose of the final paper.
 ## Prerequisites
 
 - Node.js 18.17+
-- pnpm 9.x
+- pnpm 8+
 
 ## Setup
 
