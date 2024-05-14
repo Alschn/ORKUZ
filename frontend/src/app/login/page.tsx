@@ -6,6 +6,7 @@ import {cn} from "~/lib/utils";
 import Form from "~/components/ui/form";
 import {validateRequired} from "~/lib/validations";
 import {useRouter} from "next/navigation";
+import useAuthContext from "~/store/use-auth-context";
 
 export default function LoginPage() {
   const loginRef = createRef<HTMLInputElement>();
@@ -15,11 +16,13 @@ export default function LoginPage() {
   const [passwordError, setPasswordError] = useState<string | undefined>();
 
   const router = useRouter();
+  const {doLogin} = useAuthContext()
 
   const handleSubmit = () => {
     let login = loginRef.current?.value;
     let password = passwordRef.current?.value;
     let valid = true;
+
 
     if (!validateRequired(login)) {
       valid = false;
@@ -31,6 +34,7 @@ export default function LoginPage() {
     }
 
     if (valid) {
+      doLogin(login as string)
       router.push('/');
     }
   }
