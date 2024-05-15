@@ -17,14 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from ninja import NinjaAPI
-
-api = NinjaAPI(
-    title="ORKUZ REST API",
-    description="REST API written for the purpose of the final paper.",
-    version="0.1.0",
-    docs_url="/docs/"
-)
+from .api import api
 
 urlpatterns = [
     path("admin/", admin.site.urls),
