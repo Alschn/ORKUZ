@@ -4,9 +4,14 @@ import React, {createRef, useState} from "react";
 import {Field} from "~/components/ui/field";
 import {cn} from "~/lib/utils";
 import Form from "~/components/ui/form";
-import {validateRequired} from "~/lib/validations";
 import {useRouter} from "next/navigation";
 import useAuthContext from "~/store/use-auth-context";
+import {object, string, ZodError} from "zod";
+
+const loginSchema = object({
+  login: string().min(1, 'Login is required'),
+  password: string().min(1, 'Password is required')
+}).required()
 
 export default function LoginPage() {
   const loginRef = createRef<HTMLInputElement>();
@@ -18,25 +23,32 @@ export default function LoginPage() {
   const router = useRouter();
   const {doLogin} = useAuthContext()
 
+  const handleValidationError = (error: ZodError) => {
+    error?.errors.forEach(({path, message}) => {
+      switch (path.toString()) {
+        case 'login':
+          setLoginError(message);
+          break;
+        case 'password':
+          setPasswordError(message);
+      }
+    });
+  }
+
   const handleSubmit = () => {
-    let login = loginRef.current?.value;
-    let password = passwordRef.current?.value;
-    let valid = true;
+    const login = loginRef.current?.value;
+    const password = passwordRef.current?.value;
+    const formValue = {login, password};
+    const {success, error} = loginSchema.safeParse(formValue);
 
-
-    if (!validateRequired(login)) {
-      valid = false;
-      setLoginError('Field is required');
-    }
-    if (!validateRequired(password)) {
-      valid = false;
-      setPasswordError('Field is required');
+    if (!success) {
+      handleValidationError(error);
+      return;
     }
 
-    if (valid) {
-      doLogin(login as string)
-      router.push('/');
-    }
+    // TODO call API and handle JWT
+    doLogin(login as string);
+    router.push('/');
   }
 
   return <>
