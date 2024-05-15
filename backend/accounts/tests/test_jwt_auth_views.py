@@ -6,6 +6,8 @@ from ninja_extra import status
 from ninja_extra.testing import TestClient
 from ninja_jwt.tokens import RefreshToken
 
+from accounts.utils import get_tokens_for_user
+
 namespace = f'api-{api.version}'
 
 
@@ -69,19 +71,12 @@ class JWTAuthViewsTests(TestCase):
 
     def test_verify_token(self):
         username, password = 'testuser', 'testpassword'
-        UserFactory(username=username, password=password)
-
-        token_response = self.client.post(
-            self.token_path, json={
-                'username': 'testuser',
-                'password': 'testpassword'
-            }
-        )
-        token = token_response.json()['access']
+        user = UserFactory(username=username, password=password)
+        access, _ = get_tokens_for_user(user)
 
         response = self.client.post(
             self.token_verify_path, json={
-                'token': token
+                'token': access
             }
         )
         response_json = response.json()
@@ -101,19 +96,12 @@ class JWTAuthViewsTests(TestCase):
 
     def test_refresh_token(self):
         username, password = 'testuser', 'testpassword'
-        UserFactory(username=username, password=password)
-
-        token_response = self.client.post(
-            self.token_path, json={
-                'username': username,
-                'password': password
-            }
-        )
-        refresh_token = token_response.json()['refresh']
+        user = UserFactory(username=username, password=password)
+        _, refresh = get_tokens_for_user(user)
 
         response = self.client.post(
             self.token_refresh_path, json={
-                'refresh': refresh_token
+                'refresh': refresh
             }
         )
         response_json = response.json()
@@ -134,21 +122,14 @@ class JWTAuthViewsTests(TestCase):
 
     def test_refresh_token_blacklisted(self):
         username, password = 'testuser', 'testpassword'
-        UserFactory(username=username, password=password)
-
-        token_response = self.client.post(
-            self.token_path, json={
-                'username': username,
-                'password': password
-            }
-        )
-        refresh_token = token_response.json()['refresh']
-        token = RefreshToken(refresh_token)
+        user = UserFactory(username=username, password=password)
+        _, refresh = get_tokens_for_user(user)
+        token = RefreshToken(refresh)
         token.blacklist()
 
         response = self.client.post(
             self.token_refresh_path, json={
-                'refresh': refresh_token
+                'refresh': refresh
             }
         )
         response_json = response.json()
