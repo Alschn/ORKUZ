@@ -47,6 +47,10 @@ DB_USER=$POSTGRES_USER
 DB_PASSWORD=$POSTGRES_PASSWORD
 DB_HOST=postgres-db
 DB_PORT=5432
+
+# Optional settings with defaults:
+JWT_ACCESS_LIFETIME_SECONDS=3600
+JWT_REFRESH_LIFETIME_SECONDS=86400
 ```
 
 Make sure Docker Engine is running.

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 from environ import Env
@@ -197,3 +198,14 @@ CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST", default=[])
 
 CORS_ORIGIN_REGEX_WHITELIST = env.list("CORS_ORIGIN_REGEX_WHITELIST", default=[])
+
+# ninja-jwt settings
+# https://eadwincode.github.io/django-ninja-jwt/settings/
+
+ACCESS_TOKEN_LIFETIME_SECONDS = env.int('JWT_ACCESS_LIFETIME_SECONDS', default=60 * 60)
+REFRESH_TOKEN_LIFETIME_SECONDS = env.int('JWT_REFRESH_LIFETIME_SECONDS', default=24 * 60 * 60)
+
+NINJA_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=ACCESS_TOKEN_LIFETIME_SECONDS),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=REFRESH_TOKEN_LIFETIME_SECONDS),
+}
