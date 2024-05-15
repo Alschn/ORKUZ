@@ -42,6 +42,23 @@ class TokenVerificationController(ControllerBase):
         return token.to_response_schema()
 
 
+class TokenBlackListController(ControllerBase):
+    token_blacklist_path = "/blacklist/"
+    auto_import = False
+
+    @http_post(
+        token_blacklist_path,
+        response={200: schema.blacklist_schema.get_response_schema()},
+        url_name="token_blacklist",
+    )
+    def blacklist_token(self, refresh: schema.blacklist_schema):
+        return refresh.to_response_schema()
+
+
 @api_controller('token', tags=['token'])
-class JWTController(TokenObtainPairController, TokenVerificationController):
+class JWTController(
+    TokenObtainPairController,
+    TokenVerificationController,
+    TokenBlackListController
+):
     pass

@@ -1,12 +1,12 @@
 from accounts.api import JWTController
 from accounts.tests.factories import UserFactory
+from accounts.utils import get_tokens_for_user
 from core.api import api
 from django.test import TestCase
 from ninja_extra import status
 from ninja_extra.testing import TestClient
+from ninja_jwt.exceptions import TokenError
 from ninja_jwt.tokens import RefreshToken
-
-from accounts.utils import get_tokens_for_user
 
 namespace = f'api-{api.version}'
 
@@ -15,6 +15,7 @@ class JWTAuthViewsTests(TestCase):
     token_path = JWTController.token_path
     token_refresh_path = JWTController.token_refresh_path
     token_verify_path = JWTController.token_verify_path
+    token_blacklist_path = JWTController.token_blacklist_path
 
     def setUp(self):
         self.client = TestClient(JWTController)
@@ -129,6 +130,50 @@ class JWTAuthViewsTests(TestCase):
 
         response = self.client.post(
             self.token_refresh_path, json={
+                'refresh': refresh
+            }
+        )
+        response_json = response.json()
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertIn('detail', response_json)
+        self.assertEqual(response_json['code'], 'token_not_valid')
+
+    def test_blacklist_token(self):
+        username, password = 'testuser', 'testpassword'
+        user = UserFactory(username=username, password=password)
+        _, refresh = get_tokens_for_user(user)
+
+        response = self.client.post(
+            self.token_blacklist_path, json={
+                'refresh': refresh
+            }
+        )
+        response_json = response.json()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response_json, {})
+        with self.assertRaises(TokenError):
+            RefreshToken(refresh)
+
+    def test_blacklist_invalid_token(self):
+        response = self.client.post(
+            self.token_blacklist_path, json={
+                'refresh': 'invalid'
+            }
+        )
+        response_json = response.json()
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertIn('detail', response_json)
+        self.assertEqual(response_json['code'], 'token_not_valid')
+
+    def test_blacklist_already_blacklisted_token(self):
+        username, password = 'testuser', 'testpassword'
+        user = UserFactory(username=username, password=password)
+        _, refresh = get_tokens_for_user(user)
+        token = RefreshToken(refresh)
+        token.blacklist()
+
+        response = self.client.post(
+            self.token_blacklist_path, json={
                 'refresh': refresh
             }
         )
