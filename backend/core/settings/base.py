@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_extensions",
     "ninja_extra",
+    "ninja_jwt",
+    "ninja_jwt.token_blacklist",
     # apps
     "accounts",
 ]
