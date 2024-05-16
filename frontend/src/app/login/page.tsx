@@ -60,30 +60,25 @@ export default function LoginPage() {
         className={"flex min-h-screen flex-col items-center justify-center"}
       >
         <h1 className={"my-2 p-2 text-4xl"}>Login to ORKUZ</h1>
-        <Form
-          onSubmit={handleSubmit}
-          fields={
-            <>
-              <Field
-                label={"Login"}
-                id={"login"}
-                name={"login"}
-                ref={loginRef}
-                error={loginError}
-                onChange={() => setLoginError(undefined)}
-              />
-              <Field
-                label={"Password"}
-                id={"password"}
-                name={"password"}
-                type={"password"}
-                ref={passwordRef}
-                error={passwordError}
-                onChange={() => setPasswordError(undefined)}
-              />
-            </>
-          }
-        />
+        <Form onSubmit={handleSubmit}>
+          <Field
+            label={"Login"}
+            id={"login"}
+            name={"login"}
+            ref={loginRef}
+            error={loginError}
+            onChange={() => setLoginError(undefined)}
+          />
+          <Field
+            label={"Password"}
+            id={"password"}
+            name={"password"}
+            type={"password"}
+            ref={passwordRef}
+            error={passwordError}
+            onChange={() => setPasswordError(undefined)}
+          />
+        </Form>
       </main>
     </>
   );

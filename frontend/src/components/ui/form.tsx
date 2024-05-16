@@ -8,14 +8,14 @@ import { Button } from "~/components/ui/button";
 type HtmlFormProps = ComponentPropsWithoutRef<"form">;
 
 interface FormProps extends HtmlFormProps {
-  fields: ReactNode;
+  children: ReactNode;
   submitButtonLabel?: string;
   onSubmit: () => void;
 }
 
 export default function Form({
   onSubmit,
-  fields,
+  children,
   submitButtonLabel,
   ...props
 }: FormProps) {
@@ -26,7 +26,7 @@ export default function Form({
   return (
     <div className={"w-1/3 rounded-md border p-3"}>
       <form onSubmit={handleSubmit} {...props}>
-        {fields}
+        {children}
         <div className={"p-3 text-center"}>
           <Button className={"w-1/2"}>{submitButtonLabel ?? "Submit"}</Button>
         </div>
