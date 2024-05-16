@@ -1,35 +1,19 @@
-import {ReactNode, useReducer} from "react";
-import {AuthContext, AuthContextProps} from "./auth-context";
+import { type ReactNode, useReducer } from "react";
+import { AuthContext } from "./auth-context";
+import authContextReducer, {
+  AuthActionTypes,
+} from "~/store/auth-context-reducer";
 
-enum ActionType {
-  LOGIN = 'login',
-  LOGOUT = 'logout'
-}
+export default function AuthContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [state, dispatch] = useReducer(authContextReducer, {
+    user: undefined,
+    login: (user) => dispatch({ type: AuthActionTypes.LOGIN, payload: user }),
+    logout: () => dispatch({ type: AuthActionTypes.LOGOUT }),
+  });
 
-type Action = { type: ActionType, payload?: string }
-type AuthReducer = (state: AuthContextProps, action: Action) => AuthContextProps;
-
-export default function AuthContextProvider({children}: { children: ReactNode }) {
-  const reducer: AuthReducer = (state, action): AuthContextProps => {
-    switch (action.type) {
-      case ActionType.LOGIN:
-        return {...state, userLogin: action.payload}
-      case ActionType.LOGOUT:
-        return {...state, userLogin: undefined}
-      default:
-        return state
-    }
-  }
-
-  const [state, dispatch] = useReducer(reducer, {
-    userLogin: undefined,
-    setUserLogin: login => dispatch({type: ActionType.LOGIN, payload: login}),
-    logout: () => dispatch({type: ActionType.LOGOUT})
-  })
-
-  return (
-    <AuthContext.Provider value={state}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
 }

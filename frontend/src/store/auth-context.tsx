@@ -1,18 +1,21 @@
-"use client"
+"use client";
 
-import {createContext} from "react";
+import { createContext } from "react";
+
+export type User = { username: string };
 
 export interface AuthContextProps {
-  userLogin: string | undefined;
-  setUserLogin: (login: string) => void;
+  user: User | undefined;
+  login: (user: User) => void;
   logout: () => void;
 }
 
 const authContextDefaultValue: AuthContextProps = {
-  userLogin: undefined,
-  setUserLogin: () => {},
-  logout: () => {}
+  user: undefined,
+  login: () => undefined,
+  logout: () => undefined,
 };
 
-export const AuthContext = createContext<AuthContextProps>(authContextDefaultValue)
-
+export const AuthContext = createContext<AuthContextProps>(
+  authContextDefaultValue,
+);

@@ -1,14 +1,22 @@
-"use client"
+"use client";
 
 import useAuthContext from "~/store/use-auth-context";
-import {Button} from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import Link from "next/link";
 
 export default function UserLoginIndicator() {
-  const {login, logout} = useAuthContext()
+  const { user, logout } = useAuthContext();
+  if (!user) {
+    return (
+      <Link href={"/login"}>
+        <Button>Login</Button>
+      </Link>
+    );
+  }
   return (
-    login
-      ? <span><span className={'px-2'}>{`Hello, ${login}`}</span><Button onClick={logout}>Logout</Button></span>
-      : <Link href={'/login'}><Button>Login</Button></Link>
-  )
+    <span>
+      <span className={"px-2"}>{`Hello, ${user.username}`}</span>
+      <Button onClick={logout}>Logout</Button>
+    </span>
+  );
 }
