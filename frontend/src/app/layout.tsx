@@ -2,7 +2,8 @@ import "~/styles/globals.css";
 
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "~/lib/utils";
-import { ThemeProvider } from "./providers";
+import { Providers } from "./providers";
+import { cookies } from "next/headers";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,22 +21,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookiesStore = cookies();
+  const accessTokenCookie = cookiesStore.get("access");
+
   return (
-    <html lang="en" className={`${fontSans.variable}`}>
+    <html lang="en" className={`${fontSans.variable}`} suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers authToken={accessTokenCookie?.value}>{children}</Providers>
       </body>
     </html>
   );
