@@ -1,11 +1,17 @@
 "use client";
 
-import useAuthContext from "~/store/use-auth-context";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
+import { useAuth } from "~/providers/auth";
+import { logoutAction } from "~/app/actions";
+import { useToast } from "./ui/use-toast";
+import { useTransition } from "react";
 
 export default function UserLoginIndicator() {
-  const { user, logout } = useAuthContext();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [isPending, startTransition] = useTransition();
+
   if (!user) {
     return (
       <Link href={"/login"}>
@@ -13,10 +19,28 @@ export default function UserLoginIndicator() {
       </Link>
     );
   }
+
+  const handleLogout = async () => {
+    startTransition(async () => {
+      const result = await logoutAction();
+      if (result.success) {
+        window.location.replace("/login");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Logout failed!",
+          description: "Please try again later.",
+        });
+      }
+    });
+  };
+
   return (
     <span>
       <span className={"px-2"}>{`Hello, ${user.username}`}</span>
-      <Button onClick={logout}>Logout</Button>
+      <Button onClick={handleLogout} disabled={isPending}>
+        Logout
+      </Button>
     </span>
   );
 }

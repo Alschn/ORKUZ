@@ -1,14 +1,29 @@
 "use client";
 
 import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { type ThemeProviderProps } from "next-themes/dist/types";
-import AuthContextProvider from "~/store/auth-context-provider";
+import ThemeProvider from "~/providers/theme";
+import QueryClientProvider from "~/providers/tanstack-query";
+import { Toaster } from "~/components/ui/toaster";
+import AuthProvider from "~/providers/auth";
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+export function Providers({
+  children,
+  authToken,
+}: {
+  children: React.ReactNode;
+  authToken?: string;
+}) {
   return (
-    <NextThemesProvider {...props}>
-      <AuthContextProvider>{children}</AuthContextProvider>
-    </NextThemesProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <Toaster />
+      <QueryClientProvider>
+        <AuthProvider token={authToken}>{children}</AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
