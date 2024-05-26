@@ -20,8 +20,6 @@ jobs:
     defaults:
       run:
         working-directory: frontend
-    env:
-      SKIP_ENV_VALIDATION: true
 
     strategy:
       matrix:
