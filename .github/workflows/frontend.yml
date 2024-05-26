@@ -3,14 +3,14 @@ name: Frontend Tests
 on:
   push:
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
 
   pull_request:
-    branches: [ main, dev ]
+    branches: [main, dev]
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
 
 jobs:
   test:
@@ -19,15 +19,17 @@ jobs:
     defaults:
       run:
         working-directory: frontend
+    env:
+      SKIP_ENV_VALIDATION: true
 
     strategy:
       matrix:
-        node: [ 18, 20 ]
+        node: [18, 20]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
- 
+
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         id: pnpm-install
@@ -39,8 +41,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-          cache-dependency-path: 'frontend/pnpm-lock.yaml'
+          cache: "pnpm"
+          cache-dependency-path: "frontend/pnpm-lock.yaml"
 
       - name: Install dependencies
         run: |
