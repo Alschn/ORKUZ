@@ -1,4 +1,4 @@
-from ninja_jwt.tokens import RefreshToken
+from accounts.tokens import RefreshToken
 
 
 def get_tokens_for_user(user) -> tuple[str, str]:

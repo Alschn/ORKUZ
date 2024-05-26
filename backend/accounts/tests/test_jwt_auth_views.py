@@ -1,12 +1,12 @@
 from accounts.api import JWTController
 from accounts.tests.factories import UserFactory
+from accounts.tokens import RefreshToken
 from accounts.utils import get_tokens_for_user
 from core.api import api
 from django.test import TestCase
 from ninja_extra import status
 from ninja_extra.testing import TestClient
 from ninja_jwt.exceptions import TokenError
-from ninja_jwt.tokens import RefreshToken
 
 namespace = f'api-{api.version}'
 
