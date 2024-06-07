@@ -46,8 +46,8 @@ jobs:
 
       - name: Authenticate to GitHub Packages
         run: |
-          echo "@alschn:registry=https://npm.pkg.github.com/" > frontend/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> frontend/.npmrc
+          echo "@alschn:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
       - name: Install dependencies
         run: |
