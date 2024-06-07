@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@alschn/orkuz-node-package':
+    specifier: 0.1.0
+    version: 0.1.0
   '@hookform/resolvers':
     specifier: ^3.4.2
     version: 3.4.2(react-hook-form@7.51.5)
@@ -152,6 +155,10 @@ packages:
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  /@alschn/orkuz-node-package@0.1.0:
+    resolution: {integrity: sha512-n48g8dOWinRQK34pO5nH++pNRRvCB4F7IDNJTACAA9OP0e4NR78egb2TeRdyGQQcVDZYyyzEwOkYRNTCeQRn/A==, tarball: https://npm.pkg.github.com/download/@alschn/orkuz-node-package/0.1.0/457fecd38345a83d179de24f2f52479e3fd1172f}
+    dev: false
 
   /@ampproject/remapping@2.3.0:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}

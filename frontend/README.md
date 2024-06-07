@@ -9,7 +9,16 @@ Frontend build for the purpose of the final paper.
 
 ## Setup
 
-Install dependencies
+Create `.npmrc` file with the following content:
+
+```ini
+@alschn:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=<YOUR_GITHUB_TOKEN>
+```
+
+You will be able to authenticate and install packages from GitHub Packages registry.
+
+Install dependencies:
 
 ```shell
 pnpm install
@@ -18,7 +27,7 @@ pnpm install
 Create `.env` file with env variables:
 
 ```dotenv
-
+NEXT_PUBLIC_API_URL="http://127.0.0.1:8000"
 ```
 
 Start dev server:
