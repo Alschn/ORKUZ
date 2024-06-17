@@ -1,0 +1,3 @@
+.nvmrc
+index.html
+*.config.(js|ts|mjs|json)
